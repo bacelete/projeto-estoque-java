@@ -1,8 +1,12 @@
 'use client'
 import Alert from '@mui/material/Alert';
 import { Snackbar, TextField, InputAdornment } from "@mui/material";
+import { useState } from 'react';
 
 export default function Registrar() {
+    const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState(''); 
+
     return (
         <>
             <div>
@@ -22,7 +26,8 @@ export default function Registrar() {
                             label="Senha"
                             variant="standard"
                             size="small"
-                            type="password"
+                            type="password" 
+                            onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                         <TextField
@@ -31,6 +36,9 @@ export default function Registrar() {
                             variant="standard"
                             size="small"
                             type="password"
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                            error={(password !== passwordConfirmation)}
+                            helperText={(password !== passwordConfirmation) && "As senhas devem ser iguais!"}
                             required
                         />
                     </div>
