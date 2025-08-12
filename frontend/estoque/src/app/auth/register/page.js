@@ -16,7 +16,7 @@ export default function Registrar() {
     const [alertSeverity, setAlertSeverity] = useState("success");
 
     const [username, setUsername] = useState('');
-    const [objError, setObjError] = useState({}); 
+    const [userNameError, setUsernameError] = useState({ username: false });
 
     const checkValidity = (data) => {
         setValidLength(data.length >= 8);
@@ -24,13 +24,23 @@ export default function Registrar() {
         setHasNumber(/\d/.test(data));
     }
 
-    const objError = {
-        username: username === ''
-    };
+    const validarCampos = () => {
+        const erro = {
+            username: username.trim() === ''
+        }
+
+        setUsernameError(erro);
+
+        if (!hasNumber || !hasUpper || userNameError.username || !validLength || (password !== passwordConfirmation)) {
+            return false;
+        }
+
+        return true;
+    }
 
 
     const handleSubmit = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
         if (!validarCampos()) {
             setAlertMessage('Erro ao criar conta! Preencha os campos corretamente');
@@ -58,7 +68,7 @@ export default function Registrar() {
                     </Alert>
                 </Snackbar>
                 <form
-                    className="text-black flex flex-col gap-4 max-w-sm mx-auto my-35 p-9 bg-white rounded-md shadow-2xl h-[30rem]"
+                    className="text-black flex flex-col gap-4 max-w-sm mx-auto my-35 p-9 bg-white rounded-md shadow-2xl h-[35rem]"
                     method="POST">
                     <span className="text-3xl text-center font-bold">Criar conta</span>
                     <div className="grid grid-cols w-full gap-4 my-2 p-4 mx-auto">
@@ -67,6 +77,12 @@ export default function Registrar() {
                             label="Usuário"
                             variant="standard"
                             size="small"
+                            onBlur={(e) => {
+                                setUsername(e.target.value)
+                                setUsernameError({ username: e.target.value.trim() === '' })
+                            }}
+                            error={userNameError.username}
+                            helperText={userNameError.username && "O nome de usuário é obrigatório"}
                         />
                         <TextField
                             id="password"
