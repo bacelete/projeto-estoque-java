@@ -1,7 +1,6 @@
 'use client'
 import Alert from '@mui/material/Alert';
 import { Snackbar, TextField, InputAdornment } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
 export default function Registrar() {
@@ -12,15 +11,52 @@ export default function Registrar() {
     const [hasUpper, setHasUpper] = useState(false);
     const [hasNumber, setHasNumber] = useState(false);
 
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState("success");
+
+    const [username, setUsername] = useState('');
+    const [objError, setObjError] = useState({}); 
+
     const checkValidity = (data) => {
         setValidLength(data.length >= 8);
         setHasUpper(/[A-Z]/.test(data));
         setHasNumber(/\d/.test(data));
     }
 
+    const objError = {
+        username: username === ''
+    };
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); 
+
+        if (!validarCampos()) {
+            setAlertMessage('Erro ao criar conta! Preencha os campos corretamente');
+            setAlertOpen(true);
+            setAlertSeverity("error")
+            return;
+        }
+
+        setAlertMessage('Sucesso! Conta criada com sucesso.');
+        setAlertOpen(true);
+        setAlertSeverity("success")
+
+    }
+
+    const handleClose = () => {
+        setAlertOpen(false);
+    };
+
     return (
         <>
             <div>
+                <Snackbar open={alertOpen} autoHideDuration={4000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity={alertSeverity} sx={{ width: '100%' }}>
+                        {alertMessage}
+                    </Alert>
+                </Snackbar>
                 <form
                     className="text-black flex flex-col gap-4 max-w-sm mx-auto my-35 p-9 bg-white rounded-md shadow-2xl h-[30rem]"
                     method="POST">
@@ -62,7 +98,9 @@ export default function Registrar() {
                             required
                         />
                     </div>
-                    <button className="bg-blue-500 cursor-pointer rounded-md p-1 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-indigo-800 text-white">
+                    <button
+                        onClick={handleSubmit}
+                        className="bg-blue-500 cursor-pointer rounded-md p-1 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-indigo-800 text-white">
                         Registrar
                     </button>
                 </form>
