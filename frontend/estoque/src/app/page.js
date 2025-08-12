@@ -73,7 +73,7 @@ export default function Login() {
     };
 
     const handleRegister = () => {
-        router.push('/auth/register'); 
+        router.push('/auth/register');
     }
 
     return <>
@@ -131,9 +131,9 @@ export default function Login() {
                     Entrar
                 </button>
                 <span className="mx-auto mt-3 text-neutral-500">Não possui uma conta? Registre-se.</span>
-                <button 
-                onClick={handleRegister}
-                className="bg-blue-500 cursor-pointer mx-auto rounded-md p-1 w-36 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-indigo-800 text-white">
+                <button
+                    onClick={handleRegister}
+                    className="bg-blue-500 cursor-pointer mx-auto rounded-md p-1 w-36 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-indigo-800 text-white">
                     Registrar
                 </button>
             </form>
