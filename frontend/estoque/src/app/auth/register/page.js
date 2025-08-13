@@ -25,9 +25,9 @@ export default function Registrar() {
     const [username, setUsername] = useState('');
     const [userNameError, setUsernameError] = useState({ username: false });
 
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState('USER');
 
-    const handleChange = (event) => {
+    const handleRole = (event) => {
         setRole(event.target.value);
     };
 
@@ -53,7 +53,7 @@ export default function Registrar() {
     }
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!validarCampos()) {
@@ -66,6 +66,25 @@ export default function Registrar() {
         setAlertMessage('Sucesso! Conta criada com sucesso.');
         setAlertOpen(true);
         setAlertSeverity("success")
+
+        try {
+            const data = {
+                login: username,
+                password: password,
+                role: role
+            }
+
+            console.log('data: '+data); 
+
+            const response = await fetch(`http://localhost:8080/auth/register`, {
+                method: 'POST',
+                body: JSON.stringify({data}),
+            });
+
+        }
+        catch(e) {
+            console.log(e); 
+        }
 
     }
 
@@ -134,7 +153,7 @@ export default function Registrar() {
                         <Select
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
-                            onChange={handleChange}
+                            onChange={handleRole}
                             value={role}
                             label="Perfil"
                         >
