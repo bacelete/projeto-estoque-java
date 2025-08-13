@@ -45,7 +45,7 @@ export default function Registrar() {
 
         setUsernameError(erro);
 
-        if (!hasNumber || !hasUpper || userNameError.username || !validLength || (password !== passwordConfirmation)) {
+        if (!hasNumber || !hasUpper || userNameError.username || !validLength || (password !== passwordConfirmation) || !isPresent) {
             return false;
         }
 
@@ -104,7 +104,7 @@ export default function Registrar() {
                             variant="standard"
                             size="small"
                             type="password"
-                            onBlur={(e) => {
+                            onChange={(e) => {
                                 checkValidity(e.target.value)
                                 setPassword(e.target.value)
                             }}
