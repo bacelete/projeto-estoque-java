@@ -22,8 +22,8 @@ export default function Registrar() {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState("success");
 
-    const [username, setUsername] = useState('');
-    const [userNameError, setUsernameError] = useState({ username: false });
+    const [login, setLogin] = useState('');
+    const [loginError, setLoginError] = useState({ login: false });
 
     const [role, setRole] = useState('USER');
 
@@ -40,12 +40,12 @@ export default function Registrar() {
 
     const validarCampos = () => {
         const erro = {
-            username: username.trim() === ''
+            login: login.trim() === ''
         }
 
-        setUsernameError(erro);
+        setLoginError(erro);
 
-        if (!hasNumber || !hasUpper || userNameError.username || !validLength || (password !== passwordConfirmation) || !isPresent) {
+        if (!hasNumber || !hasUpper || loginError.login || !validLength || (password !== passwordConfirmation) || !isPresent) {
             return false;
         }
 
@@ -65,7 +65,7 @@ export default function Registrar() {
 
         try {
             const data = {
-                login: username,
+                login: login,
                 password: password,
                 role: role
             }
@@ -77,13 +77,15 @@ export default function Registrar() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ data }),
+                credentials: 'include',
+                body: JSON.stringify({ login, password, role }),
             });
 
             if (!response.ok) {
                 setAlertMessage("Erro ao criar a conta!");
                 setAlertOpen(true);
                 setAlertSeverity("error");
+                return;
             }
 
             setAlertMessage('Sucesso! Conta criada com sucesso.');
@@ -120,11 +122,11 @@ export default function Registrar() {
                             variant="standard"
                             size="small"
                             onBlur={(e) => {
-                                setUsername(e.target.value)
-                                setUsernameError({ username: e.target.value.trim() === '' })
+                                setLogin(e.target.value)
+                                setLoginError({ login: e.target.value.trim() === '' })
                             }}
-                            error={userNameError.username}
-                            helperText={userNameError.username && "O nome de usuário é obrigatório"}
+                            error={loginError.login}
+                            helperText={loginError.login && "O nome de usuário é obrigatório"}
                         />
                         <TextField
                             id="password"
