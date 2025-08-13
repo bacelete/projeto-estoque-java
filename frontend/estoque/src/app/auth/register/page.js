@@ -63,10 +63,6 @@ export default function Registrar() {
             return;
         }
 
-        setAlertMessage('Sucesso! Conta criada com sucesso.');
-        setAlertOpen(true);
-        setAlertSeverity("success")
-
         try {
             const data = {
                 login: username,
@@ -74,16 +70,29 @@ export default function Registrar() {
                 role: role
             }
 
-            console.log('data: '+data); 
+            console.log('data: ' + data);
 
             const response = await fetch(`http://localhost:8080/auth/register`, {
                 method: 'POST',
-                body: JSON.stringify({data}),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data }),
             });
 
+            if (!response.ok) {
+                setAlertMessage("Erro ao criar a conta!");
+                setAlertOpen(true);
+                setAlertSeverity("error");
+            }
+
+            setAlertMessage('Sucesso! Conta criada com sucesso.');
+            setAlertOpen(true);
+            setAlertSeverity("success")
+
         }
-        catch(e) {
-            console.log(e); 
+        catch (e) {
+            console.log(e);
         }
 
     }
