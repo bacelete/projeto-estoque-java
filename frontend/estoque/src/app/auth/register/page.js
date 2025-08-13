@@ -16,6 +16,7 @@ export default function Registrar() {
     const [validLength, setValidLength] = useState(false);
     const [hasUpper, setHasUpper] = useState(false);
     const [hasNumber, setHasNumber] = useState(false);
+    const [isPresent, setIsPresent] = useState(false);
 
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -34,6 +35,7 @@ export default function Registrar() {
         setValidLength(data.length >= 8);
         setHasUpper(/[A-Z]/.test(data));
         setHasNumber(/\d/.test(data));
+        setIsPresent(data !== '');
     }
 
     const validarCampos = () => {
@@ -102,11 +104,12 @@ export default function Registrar() {
                             variant="standard"
                             size="small"
                             type="password"
-                            onChange={(e) => {
+                            onBlur={(e) => {
                                 checkValidity(e.target.value)
                                 setPassword(e.target.value)
-                            }
-                            }
+                            }}
+                            error={!isPresent}
+                            helperText={!isPresent && "Por favor, digite uma senha"}
                             required
                         />
                         <ul className='text-sm p-2'>
