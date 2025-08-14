@@ -60,7 +60,7 @@ export default function Login() {
             setPassword('');
 
             setTimeout(() => {
-                router.push('/produto/criar');  //redirecionamento
+                router.push('/home');  //redirecionamento
             }, 1500);
 
         } catch (err) {
