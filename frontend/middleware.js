@@ -2,13 +2,15 @@ import { NextResponse } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request) {
-  const token = request.cookies.get('token')?.value;
+  const token = request.cookies.get('jwt')?.value;
+
+  console.log(token);
 
   const protectedPaths = ['/produto']
   const isProtectedRoute = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
 
   if (isProtectedRoute && !token) {
-    const loginUrl = new URL('/login', request.url)
+    const loginUrl = new URL('/', request.url)
     return NextResponse.redirect(loginUrl)
   }
 
