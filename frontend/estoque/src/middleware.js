@@ -6,11 +6,11 @@ export function middleware(request) {
 
   console.log(token);
 
-  const protectedPaths = ['/produto']
+  const protectedPaths = ['/produto', '/categoria', '/fornecedor', '/estoque']
   const isProtectedRoute = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
 
   if (isProtectedRoute && !token) {
-    const loginUrl = new URL('/', request.url)
+    const loginUrl = new URL('/auth/login', request.url)
     return NextResponse.redirect(loginUrl)
   }
 
@@ -18,6 +18,6 @@ export function middleware(request) {
 }
 
 export const config ={
-  matcher:['/produto/:path*']
+  matcher:['/produto/:path*', '/categoria/:path*', '/fornecedor/:path*', '/estoque/:path*']
 }
 
