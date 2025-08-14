@@ -1,6 +1,6 @@
 package com.myapp.estoque.controller;
 
-import com.myapp.estoque.dto.ControleEstoqueDTO;
+import com.myapp.estoque.dto.MovimentacaoEstoqueDTO;
 import com.myapp.estoque.exception.EmptyObjectException;
 import com.myapp.estoque.exception.NotEnoughException;
 import com.myapp.estoque.model.MovimentacaoEstoque;
@@ -24,7 +24,7 @@ public class MovimentacaoEstoqueController {
     private ProdutoService produtoService;
 
     @PostMapping("/produto/{id}/adicionar")
-    public ResponseEntity<MovimentacaoEstoque> addQuantidadeProduto(@PathVariable int id, @RequestBody ControleEstoqueDTO dto) {
+    public ResponseEntity<MovimentacaoEstoque> addQuantidadeProduto(@PathVariable int id, @RequestBody MovimentacaoEstoqueDTO dto) {
         if (produtoService.isEmpty(id)) {
             throw new EmptyObjectException("Produto não encontrado.");
         }
@@ -45,7 +45,7 @@ public class MovimentacaoEstoqueController {
     }
 
     @PostMapping("/produto/{id}/remover")
-    public ResponseEntity<MovimentacaoEstoque> removerQuantidadeProduto(@PathVariable int id, @RequestBody ControleEstoqueDTO dto) {
+    public ResponseEntity<MovimentacaoEstoque> removerQuantidadeProduto(@PathVariable int id, @RequestBody MovimentacaoEstoqueDTO dto) {
         if (produtoService.isEmpty(id)) {
             throw new EmptyObjectException("Produto não encontrado.");
         }
