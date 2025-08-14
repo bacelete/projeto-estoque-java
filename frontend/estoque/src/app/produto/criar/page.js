@@ -122,7 +122,7 @@ export default function CreateProduto() {
         console.log(data);
 
         try {
-            const response = await fetch('http://localhost:8080/produto/criar', {
+            const response = await fetch('http://localhost:8080/produto', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

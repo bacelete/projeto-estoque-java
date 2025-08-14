@@ -30,7 +30,7 @@ public class ProdutoController {
     private CategoriaService categoriaService;
 
 
-    @PostMapping("/criar")
+    @PostMapping
     public ResponseEntity<Produto> criarProduto(@RequestBody ProdutoDTO produtoDTO) {
 
         Categoria categoria = produtoDTO.getCategoria();
@@ -52,7 +52,7 @@ public class ProdutoController {
                 .ok(novo);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Produto> getProdutoById(@PathVariable int id) {
         Produto produto = produtoService.buscarPorId(id)
                 .orElseThrow(() -> new EmptyObjectException("Produto não encontrado."));
@@ -71,7 +71,7 @@ public class ProdutoController {
         return ResponseEntity.ok(produto);
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
         if (produtoService.isEmpty(id)) {
             throw new EmptyObjectException("Produto não encontrado.");
@@ -80,7 +80,7 @@ public class ProdutoController {
         return ResponseEntity.ok("Produto excluído com sucesso!");
     }
 
-    @PutMapping("/id/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Produto> editarProduto(@PathVariable int id, @RequestBody ProdutoDTO novo) {
         if (produtoService.isEmpty(id)) {
             throw new EmptyObjectException("Produto não encontrado.");
