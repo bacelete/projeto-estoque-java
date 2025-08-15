@@ -1,6 +1,7 @@
 package com.myapp.estoque.controller;
 
 import com.myapp.estoque.dto.ControleEstoqueDTO;
+import com.myapp.estoque.dto.ControleEstoqueResponseDTO;
 import com.myapp.estoque.exception.EmptyObjectException;
 import com.myapp.estoque.exception.NotEnoughException;
 import com.myapp.estoque.model.ControleEstoque;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -71,13 +73,21 @@ public class ControleEstoqueController {
     }
 
     @GetMapping("/relatorio")
-    public ResponseEntity<List<ControleEstoque>> getRelatorio() {
+    public ResponseEntity<List<ControleEstoqueResponseDTO>> getRelatorio() {
         if (controleEstoqueService.findAll().isEmpty()) {
             throw new EmptyObjectException("Não há movimentações registradas no estoque.");
         }
 
-        List<ControleEstoque> relatorio = controleEstoqueService.findAll();
-        return ResponseEntity.ok(relatorio);
+        List<ControleEstoque> relatorios = controleEstoqueService.findAll();
+        List<ControleEstoqueResponseDTO> relatoriosDTO = new ArrayList<>();
+
+        for (ControleEstoque relatorio : relatorios) {
+            relatoriosDTO.add(new ControleEstoqueResponseDTO(relatorio.getTipo_movimentacao(),
+                    relatorio.getQuantidade(), relatorio.getData_hora(), relatorio.getObservacao(),
+                    relatorio.getProduto().getNome()));
+        }
+
+        return ResponseEntity.ok(relatoriosDTO);
     }
 
 }
