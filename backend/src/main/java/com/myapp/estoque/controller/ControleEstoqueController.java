@@ -1,12 +1,12 @@
 package com.myapp.estoque.controller;
 
-import com.myapp.estoque.dto.MovimentacaoEstoqueDTO;
+import com.myapp.estoque.dto.ControleEstoqueDTO;
 import com.myapp.estoque.exception.EmptyObjectException;
 import com.myapp.estoque.exception.NotEnoughException;
-import com.myapp.estoque.model.MovimentacaoEstoque;
+import com.myapp.estoque.model.ControleEstoque;
 import com.myapp.estoque.model.Produto;
 import com.myapp.estoque.enums.TipoMovimentacao;
-import com.myapp.estoque.service.MovimentacaoEstoqueService;
+import com.myapp.estoque.service.ControleEstoqueService;
 import com.myapp.estoque.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-public class MovimentacaoEstoqueController {
+public class ControleEstoqueController {
     @Autowired
-    private MovimentacaoEstoqueService movimentacaoService;
+    private ControleEstoqueService movimentacaoService;
 
     @Autowired
     private ProdutoService produtoService;
 
     @PostMapping("/produto/{id}/adicionar")
-    public ResponseEntity<MovimentacaoEstoque> addQuantidadeProduto(@PathVariable int id, @RequestBody MovimentacaoEstoqueDTO dto) {
+    public ResponseEntity<ControleEstoque> addQuantidadeProduto(@PathVariable int id, @RequestBody ControleEstoqueDTO dto) {
         if (produtoService.isEmpty(id)) {
             throw new EmptyObjectException("Produto não encontrado.");
         }
@@ -33,7 +33,7 @@ public class MovimentacaoEstoqueController {
         produto.setQuantidade(produto.getQuantidade() + dto.getQuantidade());
         produtoService.salvarProduto(produto);
 
-        MovimentacaoEstoque nova = new MovimentacaoEstoque();
+        ControleEstoque nova = new ControleEstoque();
         nova.setProduto(produto);
         nova.setData_hora(LocalDateTime.now());
         nova.setTipo_movimentacao(TipoMovimentacao.ENTRADA);
@@ -45,7 +45,7 @@ public class MovimentacaoEstoqueController {
     }
 
     @PostMapping("/produto/{id}/remover")
-    public ResponseEntity<MovimentacaoEstoque> removerQuantidadeProduto(@PathVariable int id, @RequestBody MovimentacaoEstoqueDTO dto) {
+    public ResponseEntity<ControleEstoque> removerQuantidadeProduto(@PathVariable int id, @RequestBody ControleEstoqueDTO dto) {
         if (produtoService.isEmpty(id)) {
             throw new EmptyObjectException("Produto não encontrado.");
         }
@@ -59,7 +59,7 @@ public class MovimentacaoEstoqueController {
         produto.setQuantidade(produto.getQuantidade() - dto.getQuantidade());
         produtoService.salvarProduto(produto);
 
-        MovimentacaoEstoque nova = new MovimentacaoEstoque();
+        ControleEstoque nova = new ControleEstoque();
         nova.setProduto(produto);
         nova.setData_hora(LocalDateTime.now());
         nova.setTipo_movimentacao(TipoMovimentacao.SAIDA);
@@ -71,12 +71,12 @@ public class MovimentacaoEstoqueController {
     }
 
     @GetMapping("/relatorio")
-    public ResponseEntity<List<MovimentacaoEstoque>> getRelatorio() {
+    public ResponseEntity<List<ControleEstoque>> getRelatorio() {
         if (movimentacaoService.findAll().isEmpty()) {
             throw new EmptyObjectException("Não há movimentações registradas no estoque.");
         }
 
-        List<MovimentacaoEstoque> relatorio = movimentacaoService.findAll();
+        List<ControleEstoque> relatorio = movimentacaoService.findAll();
         return ResponseEntity.ok(relatorio);
     }
 

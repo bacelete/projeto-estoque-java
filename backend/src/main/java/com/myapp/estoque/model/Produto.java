@@ -50,7 +50,7 @@ public class Produto {
 
     @OneToMany(mappedBy = "produto")
     @JsonIgnore
-    private List<MovimentacaoEstoque> movimentacoes;
+    private List<ControleEstoque> movimentacoes;
 
     public Produto() {}
 }

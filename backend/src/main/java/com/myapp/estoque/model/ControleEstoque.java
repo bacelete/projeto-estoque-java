@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MovimentacaoEstoque {
+public class ControleEstoque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -33,6 +33,6 @@ public class MovimentacaoEstoque {
     @JoinColumn(name = "id_produto")
     private Produto produto;
 
-    public MovimentacaoEstoque() {}
+    public ControleEstoque() {}
 
 }

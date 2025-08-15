@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MovimentacaoEstoqueDTO {
+public class ControleEstoqueDTO {
     private int quantidade;
     private String observacao;
 }
