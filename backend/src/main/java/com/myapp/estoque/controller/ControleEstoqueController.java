@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class ControleEstoqueController {
     @Autowired
-    private ControleEstoqueService movimentacaoService;
+    private ControleEstoqueService controleEstoqueService;
 
     @Autowired
     private ProdutoService produtoService;
@@ -41,7 +41,7 @@ public class ControleEstoqueController {
         nova.setObservacao(dto.getObservacao()); //inspecionar isso aqui dps;
         nova.setQuantidade(dto.getQuantidade());
 
-        return ResponseEntity.ok(movimentacaoService.registrarMovimentacao(nova));
+        return ResponseEntity.ok(controleEstoqueService.registrarMovimentacao(nova));
     }
 
     @PostMapping("/produto/{id}/remover")
@@ -52,7 +52,7 @@ public class ControleEstoqueController {
 
         Produto produto = produtoService.buscarPorId(id).get();
 
-        if (movimentacaoService.isLower(produto.getQuantidade(), dto.getQuantidade())) {
+        if (controleEstoqueService.isLower(produto.getQuantidade(), dto.getQuantidade())) {
             throw new NotEnoughException();
         }
 
@@ -67,16 +67,16 @@ public class ControleEstoqueController {
         nova.setObservacao(dto.getObservacao()); //inspecionar isso aqui dps;
         nova.setQuantidade(dto.getQuantidade());
 
-        return ResponseEntity.ok(movimentacaoService.registrarMovimentacao(nova));
+        return ResponseEntity.ok(controleEstoqueService.registrarMovimentacao(nova));
     }
 
     @GetMapping("/relatorio")
     public ResponseEntity<List<ControleEstoque>> getRelatorio() {
-        if (movimentacaoService.findAll().isEmpty()) {
+        if (controleEstoqueService.findAll().isEmpty()) {
             throw new EmptyObjectException("Não há movimentações registradas no estoque.");
         }
 
-        List<ControleEstoque> relatorio = movimentacaoService.findAll();
+        List<ControleEstoque> relatorio = controleEstoqueService.findAll();
         return ResponseEntity.ok(relatorio);
     }
 
