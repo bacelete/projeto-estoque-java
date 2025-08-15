@@ -90,4 +90,15 @@ public class ControleEstoqueController {
         return ResponseEntity.ok(relatoriosDTO);
     }
 
+    @DeleteMapping("/relatorio/{id}")
+    public ResponseEntity<?> deleteRelatorio(@PathVariable int id) {
+        if (controleEstoqueService.findById(id).isEmpty()) {
+            throw new EmptyObjectException("Relatório não encontrado!");
+        }
+        controleEstoqueService.delete(id);
+        return ResponseEntity.ok("Relatório excluído com sucesso!");
+    }
+
+
+
 }
