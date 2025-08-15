@@ -5,6 +5,8 @@ import com.myapp.estoque.repository.MovimentacaoEstoqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovimentacaoEstoqueService {
     @Autowired
@@ -17,4 +19,6 @@ public class MovimentacaoEstoqueService {
     public boolean isLower(int qtdProduto, int qtdSolicitada) {
         return qtdProduto < qtdSolicitada;
     }
+
+    public List<MovimentacaoEstoque> findAll() { return movimentacaoRepository.findAll(); }
 }

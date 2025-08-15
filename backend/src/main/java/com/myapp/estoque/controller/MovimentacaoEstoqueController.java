@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 public class MovimentacaoEstoqueController {
@@ -69,7 +70,14 @@ public class MovimentacaoEstoqueController {
         return ResponseEntity.ok(movimentacaoService.registrarMovimentacao(nova));
     }
 
+    @GetMapping("/relatorio")
+    public ResponseEntity<List<MovimentacaoEstoque>> getRelatorio() {
+        if (movimentacaoService.findAll().isEmpty()) {
+            throw new EmptyObjectException("Não há movimentações registradas no estoque.");
+        }
 
-
+        List<MovimentacaoEstoque> relatorio = movimentacaoService.findAll();
+        return ResponseEntity.ok(relatorio);
+    }
 
 }
