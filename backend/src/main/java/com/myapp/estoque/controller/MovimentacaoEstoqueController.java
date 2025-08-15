@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/estoque")
 public class MovimentacaoEstoqueController {
     @Autowired
     private MovimentacaoEstoqueService movimentacaoService;
