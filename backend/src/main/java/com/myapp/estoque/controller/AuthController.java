@@ -3,6 +3,7 @@ package com.myapp.estoque.controller;
 import com.myapp.estoque.dto.AuthDTO;
 import com.myapp.estoque.dto.RegisterDTO;
 import com.myapp.estoque.dto.TokenDTO;
+import com.myapp.estoque.exception.EmptyObjectException;
 import com.myapp.estoque.model.Usuario;
 import com.myapp.estoque.repository.UsuarioRepository;
 import com.myapp.estoque.security.TokenService;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,5 +81,14 @@ public class AuthController {
         this.usuarioRepository.save(usuario);
 
         return ResponseEntity.ok(usuario);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getLoginById(@PathVariable int id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new EmptyObjectException("Usuário não encontrado!");
+        }
+        UserDetails user = usuarioRepository.getReferenceById(id);
+        return ResponseEntity.ok(user);
     }
 }
